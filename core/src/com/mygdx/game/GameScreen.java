@@ -1,7 +1,6 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.*;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,18 +8,27 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 import static Helper.Constants.PPM;
 
-public class GameScreen extends ScreenAdapter {
+public abstract class GameScreen extends ScreenAdapter {
 
-    private OrthographicCamera camera;
-    private SpriteBatch batch;
-    private World world;
-    private Box2DDebugRenderer box2DDebugRenderer;
+    OrthographicCamera camera;
+    SpriteBatch batch;
+    World world;
+    Box2DDebugRenderer box2DDebugRenderer;
+    int widthScreen, heightScreen;
+    MainGame game;
+	BitmapFont font;
 
-    public GameScreen(OrthographicCamera camera) {
-        this.camera = camera;
+    public GameScreen(MainGame game) {
+    	this.font = new BitmapFont();
+    	this.game = game;
+    	this.widthScreen = Gdx.graphics.getWidth();
+		this.heightScreen = Gdx.graphics.getHeight();
+		this.camera = new OrthographicCamera();
+		this.camera.setToOrtho(false, widthScreen, heightScreen);
         this.batch = new SpriteBatch();
         this.world = new World(new Vector2(0,0), false);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
