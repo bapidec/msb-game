@@ -34,32 +34,32 @@ public abstract class GameScreen extends ScreenAdapter {
         this.box2DDebugRenderer = new Box2DDebugRenderer();
     }
 
-    private void update() {
+    public void update() {
         world.step(1/60f,6,2);
         cameraUpdate();
 
         batch.setProjectionMatrix(camera.combined);
     }
 
-    private void cameraUpdate() {       // by kamera podążała za graczem
+    public void cameraUpdate() {       // by kamera podążała za graczem
         camera.position.set(new Vector3(0,0,0));
         camera.update();
     }
 
-    @Override
-    public void render(float delta) {
-        this.update();
-
-        Gdx.gl.glClearColor(0,0,0,1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        batch.begin();
-        // renderowanie obiektów
-
-
-        batch.end();
-        box2DDebugRenderer.render(world, camera.combined.scl(PPM));
-    }
+//    @Override
+//    public void render(float delta) {
+//        this.update();
+//
+//        Gdx.gl.glClearColor(0,0,0,1);
+//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+//
+//        batch.begin();
+//        // renderowanie obiektów
+//
+//
+//        batch.end();
+//        box2DDebugRenderer.render(world, camera.combined.scl(PPM));
+//    }
 
 
 }
