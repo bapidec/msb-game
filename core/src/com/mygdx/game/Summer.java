@@ -18,7 +18,7 @@ public class Summer extends GameScreen{
 	        @Override
 	        public boolean keyDown(int keyCode) {
 	            if (keyCode == Input.Keys.SPACE) {
-	            	game.setScreen(new Winter(game, "maps.map0.tmx"));
+	            	game.setScreen(new Winter(game, "map/map_0.tmx"));
 	            }
 	            return true;
 	        }
