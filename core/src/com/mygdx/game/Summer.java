@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class Summer extends GameScreen{
 	
-	public Summer(MainGame game) {
-		super(game);
+	public Summer(MainGame game, String mapPath) {
+		super(game, mapPath);
 	}
 	
 	@Override
@@ -18,21 +18,21 @@ public class Summer extends GameScreen{
 	        @Override
 	        public boolean keyDown(int keyCode) {
 	            if (keyCode == Input.Keys.SPACE) {
-	            	game.setScreen(new Winter(game));
+	            	game.setScreen(new Winter(game, "maps.map0.tmx"));
 	            }
 	            return true;
 	        }
 	    });
 	}
 	
-	@Override
-	public void render(float delta) {
-		Gdx.gl.glClearColor(0,0,0,1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		font.draw(batch, "SUMMER", Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-		batch.end();
-	}
+//	@Override
+//	public void render(float delta) {
+//		Gdx.gl.glClearColor(0,0,0,1);
+//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+//		batch.begin();
+//		font.draw(batch, "SUMMER", Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+//		batch.end();
+//	}
 	
 	@Override
     public void hide(){

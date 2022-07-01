@@ -24,8 +24,8 @@ public class TileMapHelper {
         this.gameScreen = gameScreen;
     }
 
-    public OrthogonalTiledMapRenderer setupMap() {
-        tiledMap = new TmxMapLoader().load("maps.map0.tmx");   // wczytanie mapy 1 z katalogu
+    public OrthogonalTiledMapRenderer setupMap(String mapPath) {
+        tiledMap = new TmxMapLoader().load(mapPath);   // wczytanie mapy 1 z katalogu
         parseMapObjects(tiledMap.getLayers().get("objects").getObjects());      // przekazanie layeru "objects" utworzonego w Tiled (poligonów)
         return new OrthogonalTiledMapRenderer(tiledMap);
     }

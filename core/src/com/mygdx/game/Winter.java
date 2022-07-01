@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class Winter extends GameScreen {
 	
-	public Winter(MainGame game) {
-		super(game);
+	public Winter(MainGame game, String mapPath) {
+		super(game, mapPath);
 	}
 	
 	@Override
@@ -25,14 +25,14 @@ public class Winter extends GameScreen {
 	    });
 	}
 	
-	@Override
-	public void render(float delta) {
-		Gdx.gl.glClearColor(0,0,0,1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		font.draw(batch, "WINTER", Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-		batch.end();
-	}
+//	@Override
+//	public void render(float delta) {
+//		Gdx.gl.glClearColor(0,0,0,1);
+//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+//		batch.begin();
+//		font.draw(batch, "WINTER", Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+//		batch.end();
+//	}
 	
 	@Override
     public void hide(){

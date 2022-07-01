@@ -24,10 +24,10 @@ public abstract class GameScreen extends ScreenAdapter {
     MainGame game;
 	BitmapFont font;
 
-    private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
-    private TileMapHelper tileMapHelper;
+    OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
+    TileMapHelper tileMapHelper;
 
-    public GameScreen(MainGame game) {
+    public GameScreen(MainGame game, String mapPath) {
     	this.font = new BitmapFont();
     	this.game = game;
     	this.widthScreen = Gdx.graphics.getWidth();
@@ -39,10 +39,10 @@ public abstract class GameScreen extends ScreenAdapter {
         this.box2DDebugRenderer = new Box2DDebugRenderer();
 
         this.tileMapHelper = new TileMapHelper(this);
-        this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
+        this.orthogonalTiledMapRenderer = tileMapHelper.setupMap(mapPath);
     }
 
-    public void update() {
+    void update() {
         world.step(1/60f,6,2);
         cameraUpdate();
 
@@ -50,7 +50,7 @@ public abstract class GameScreen extends ScreenAdapter {
         orthogonalTiledMapRenderer.setView(camera);
     }
 
-    public void cameraUpdate() {       // by kamera podążała za graczem
+    void cameraUpdate() {       // by kamera podążała za graczem
         camera.position.set(new Vector3(0,0,0));
         camera.update();
     }
