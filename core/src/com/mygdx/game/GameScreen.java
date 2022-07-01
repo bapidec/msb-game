@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import objects.player.Player;
 
 import static Helper.Constants.PPM;
 
@@ -27,6 +28,9 @@ public abstract class GameScreen extends ScreenAdapter {
     OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     TileMapHelper tileMapHelper;
 
+    // obiekty gry
+    private Player player;
+
     public GameScreen(MainGame game, String mapPath) {
     	this.font = new BitmapFont();
     	this.game = game;
@@ -35,7 +39,7 @@ public abstract class GameScreen extends ScreenAdapter {
 		this.camera = new OrthographicCamera();
 		this.camera.setToOrtho(false, widthScreen, heightScreen);
         this.batch = new SpriteBatch();
-        this.world = new World(new Vector2(0,0), false);
+        this.world = new World(new Vector2(0,-9.81f), false);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
 
         this.tileMapHelper = new TileMapHelper(this);
@@ -75,4 +79,9 @@ public abstract class GameScreen extends ScreenAdapter {
     public World getWorld() {       // potrzebny do Body
         return world;
     }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
 }

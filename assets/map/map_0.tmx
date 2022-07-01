@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.0" orientation="orthogonal" renderorder="right-down" width="60" height="12" tilewidth="64" tileheight="64" infinite="0" nextlayerid="3" nextobjectid="15">
+<map version="1.9" tiledversion="1.9.0" orientation="orthogonal" renderorder="right-down" width="60" height="12" tilewidth="64" tileheight="64" infinite="0" nextlayerid="3" nextobjectid="17">
  <tileset firstgid="1" source="tiles.tsx"/>
+ <tileset firstgid="721" source="tiles_2.tsx"/>
  <layer id="1" name="background" width="60" height="12">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo4D6gBEND3cwEvw4lMBIS3/4wGAPC3xuo5XbSTGXFPvRzSXkp8EIGNFoapg3Uv07ioc3BgBM3wCm
+   eJxjYBgFo4D64DITKh7ugHGgHTAKUMBIS3/4wGAPC3xuo5XbSTGXFPvRzcWmhxEJD0bAiEZTw7yR6l9s6WGgMbXdx8gwcjEArA1HCg==
   </data>
  </layer>
  <objectgroup id="2" name="objects">
@@ -37,5 +38,6 @@
   <object id="13" x="3644" y="628">
    <polygon points="0,0 0,-248 196,-244 196,4"/>
   </object>
+  <object id="15" name="player" x="128" y="512" width="64" height="64"/>
  </objectgroup>
 </map>
