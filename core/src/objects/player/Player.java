@@ -16,10 +16,15 @@ public class Player extends GameEntity {
     public void update() {
         x = body.getPosition().x * PPM;     // x i y muszą być aktualizowane do aktualnej pozycji body
         y = body.getPosition().y * PPM;
+
+
     }
 
     @Override
     public void render(SpriteBatch batch) {
 
     }
+
+    //private void Chec
+
 }

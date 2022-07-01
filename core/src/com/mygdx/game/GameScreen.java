@@ -39,7 +39,7 @@ public abstract class GameScreen extends ScreenAdapter {
 		this.camera = new OrthographicCamera();
 		this.camera.setToOrtho(false, widthScreen, heightScreen);
         this.batch = new SpriteBatch();
-        this.world = new World(new Vector2(0,-9.81f), false);
+        this.world = new World(new Vector2(0,-25f), false);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
 
         this.tileMapHelper = new TileMapHelper(this);
@@ -52,6 +52,7 @@ public abstract class GameScreen extends ScreenAdapter {
 
         batch.setProjectionMatrix(camera.combined);
         orthogonalTiledMapRenderer.setView(camera);
+        player.update();
     }
 
     void cameraUpdate() {       // by kamera podążała za graczem
