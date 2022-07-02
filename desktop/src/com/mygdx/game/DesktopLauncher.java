@@ -12,7 +12,7 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 		config.useVsync(true);
 		config.setWindowedMode(1280, 768);
-		config.setTitle("msb game");
+		config.setTitle("Psycho Shrew");
 		new Lwjgl3Application(new MainGame(), config);
 	}
 }
