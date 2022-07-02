@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import objects.player.Player;
 
 import static Helper.Constants.PPM;
+import static Helper.Constants.SCALE;
 
 public abstract class GameScreen extends ScreenAdapter {
 
@@ -36,7 +37,7 @@ public abstract class GameScreen extends ScreenAdapter {
     	this.widthScreen = Gdx.graphics.getWidth();
 		this.heightScreen = Gdx.graphics.getHeight();
 		this.camera = new OrthographicCamera();
-		this.camera.setToOrtho(false, widthScreen, heightScreen);
+		this.camera.setToOrtho(false, widthScreen/SCALE, heightScreen/SCALE);
         this.batch = new SpriteBatch();
         this.world = new World(new Vector2(0,-25f), false);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
