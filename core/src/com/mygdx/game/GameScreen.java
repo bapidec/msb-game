@@ -36,11 +36,8 @@ public abstract class GameScreen extends ScreenAdapter {
     OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     TileMapHelper tileMapHelper;
 
-    Texture shrew;
-
     protected Player player;
 
-    protected Food []foods;
     protected Enemy[]enemies;
 
     protected ShrewContact shrewCollisions;
@@ -66,23 +63,6 @@ public abstract class GameScreen extends ScreenAdapter {
 
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap(mapPath);
-
-        this.foods = new Food[10];
-        this.enemies = new Enemy[10];
-        int temp=0;
-        for(int i=0; i<10; i++){
-            foods[i] = new Food(this.world, "", this.rand.nextInt(2496),850,16,16);
-        }
-        for(int i=0; i<10; i++){
-            temp = this.rand.nextInt(1);
-            if(temp%2 == 0){
-                this.enemies[i] = new Spider(this.rand.nextInt(2496), 850, this.world);
-            }else{
-
-            }
-        }
-        this.foods[1] = new Food(this.world, "", 200,100,64,64);
-        this.shrew = new Texture("shrew_1.png");
     }
 
     public void update() {
@@ -91,14 +71,6 @@ public abstract class GameScreen extends ScreenAdapter {
         batch.setProjectionMatrix(camera.combined);
         orthogonalTiledMapRenderer.setView(camera);
         player.update();
-        for(int i=0 ; i<10; i++) {
-            if (foods[i] != null && foods[i].getEaten()) {
-                this.world.destroyBody(this.foods[i].getBody());
-                this.foods[i].getBody().setUserData(null);
-                this.foods[i].setBody(null);
-                this.foods[i] = null;
-            }
-        }
         for(int i=0 ; i<10; i++){
             if(enemies[i]!=null){
                 enemies[i].update();

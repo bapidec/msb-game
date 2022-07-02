@@ -11,12 +11,13 @@ import static Helper.Constants.PPM;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import objects.player.Enemies;
+import objects.player.Enemy;
 import objects.player.Food;
 import objects.player.Spider;
 
 public class Summer extends GameScreen{
 	private Texture[] seeds;
-	private Food food;
+	private Food []foods;
 	public Summer(MainGame game, String mapPath) {
 		super(game, mapPath);
 
@@ -28,7 +29,21 @@ public class Summer extends GameScreen{
 		this.seeds[1] = new Texture("seed_2.png");
 		this.seeds[2] = new Texture("seed_3.png");
 
-		this.food = new Food(this.world, "Ziarno", 200,100,10,10);
+		this.foods = new Food[10];
+		this.enemies = new Enemy[10];
+		int temp=0;
+		for(int i=0; i<10; i++){
+			foods[i] = new Food(this.world, "", this.rand.nextInt(2496),850,16,16);
+		}
+		for(int i=0; i<10; i++){
+			temp = this.rand.nextInt(1);
+			if(temp%2 == 0){
+				this.enemies[i] = new Spider(this.rand.nextInt(2496), 850, this.world);
+			}else{
+
+			}
+		}
+		this.shrew = new Texture("shrew_1.png");
 	}
 	
 	@Override
@@ -37,11 +52,13 @@ public class Summer extends GameScreen{
 	@Override
 	public void update() {
 		super.update();
-		if(this.food != null && this.food.getEaten()) {
-			this.world.destroyBody(this.food.getBody());
-			this.food.getBody().setUserData(null);
-			this.food.setBody(null);
-			this.food = null;
+		for(int i=0 ; i<10; i++) {
+			if (foods[i] != null && foods[i].getEaten()) {
+				this.world.destroyBody(this.foods[i].getBody());
+				this.foods[i].getBody().setUserData(null);
+				this.foods[i].setBody(null);
+				this.foods[i] = null;
+			}
 		}
 	}
 
@@ -68,9 +85,6 @@ public class Summer extends GameScreen{
 			}
 		}
 		super.batch.draw(super.shrew,player.getBody().getPosition().x*PPM-32,player.getBody().getPosition().y*PPM-32);
-		if(this.food != null) {
-			batch.draw(seeds[0], this.food.getBody().getPosition().x * PPM - (seeds[0].getWidth() / 2), this.food.getBody().getPosition().y * PPM - (seeds[0].getHeight() / 2));
-		}
 		super.batch.end();
 		super.orthogonalTiledMapRenderer.render();
 		super.box2DDebugRenderer.render(world, camera.combined.scl(PPM));
