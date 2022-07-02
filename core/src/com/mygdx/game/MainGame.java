@@ -3,9 +3,8 @@ package com.mygdx.game;
 import com.badlogic.gdx.Game;
 
 public class MainGame extends Game {
-
 	public static MainGame INSTANCE;
-	
+
 	public MainGame() {
 		INSTANCE = this;
 	}
@@ -14,5 +13,4 @@ public class MainGame extends Game {
 	public void create () {
 		this.setScreen(new TitleScreen(INSTANCE));
 	}
-
 }
