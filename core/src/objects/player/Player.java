@@ -17,20 +17,6 @@ public class Player extends GameEntity {
     }
 
     private void checkUserInput(){
-//        if(Gdx.input.isKeyJustPressed(Input.Keys.A)){
-//            super.velX = -1;
-//        }else if(Gdx.input.isKeyJustPressed(Input.Keys.D)){
-//            super.velX = 1;
-//        }else if(Gdx.input.isKeyJustPressed(Input.Keys.W)){
-//            super.velY = 1;
-//        }else if(Gdx.input.isKeyJustPressed(Input.Keys.S)){
-//            super.velY = -1;
-//        }else{
-//            super.velX=0;
-//            super.velY=0;
-//        }
-//
-//        body.setLinearVelocity(super.velX+super.speed, super.body.getLinearVelocity().y);
         super.velX = 0;
         if(Gdx.input.isKeyPressed(Input.Keys.D))
             super.velX += 1;

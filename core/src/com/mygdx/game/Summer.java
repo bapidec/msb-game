@@ -9,27 +9,19 @@ import com.badlogic.gdx.math.Vector3;
 import static Helper.Constants.PPM;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import objects.player.Enemies;
 import objects.player.Spider;
 
 public class Summer extends GameScreen{
 	
 	public Summer(MainGame game, String mapPath) {
 		super(game, mapPath);
-		super.background = new Texture("map/summer.png");
+		super.background = new Texture("background.png");
 		super.backgroundSprite = new Sprite(super.background);
 	}
 	
 	@Override
 	public void show() {
-		Gdx.input.setInputProcessor(new InputAdapter() {
-	        @Override
-	        public boolean keyDown(int keyCode) {
-	            if (keyCode == Input.Keys.SPACE) {
-	            	game.setScreen(new Winter(game, "map/mapXD.tmx"));
-	            }
-	            return true;
-	        }
-	    });
 	}
 
 	@Override
@@ -39,11 +31,21 @@ public class Summer extends GameScreen{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		orthogonalTiledMapRenderer.render();
 		super.batch.begin();
-		super.backgroundSprite.setPosition(super.player.getBody().getPosition().x * PPM - super.background.getWidth()/2f, super.player.getBody().getPosition().y * PPM-  96);
+		super.backgroundSprite.setPosition(super.player.getBody().getPosition().x * PPM - super.background.getWidth()/2f,
+				super.player.getBody().getPosition().y * PPM-  96);
 		super.backgroundSprite.draw(super.batch);
-		batch.draw(shrew, player.getBody().getPosition().x*PPM-(shrew.getWidth()/2),player.getBody().getPosition().y*PPM-(shrew.getHeight()/2));
-		if(food != null)
-			batch.draw(shrew, food.getBody().getPosition().x*PPM-(shrew.getWidth()/2),food.getBody().getPosition().y*PPM-(shrew.getHeight()/2));
+		batch.draw(shrew, player.getBody().getPosition().x*PPM-(shrew.getWidth()/2),
+				player.getBody().getPosition().y*PPM-(shrew.getHeight()/2));
+		for(int i=0; i<10; i++)
+			if(foods[i] != null)
+				batch.draw(shrew, foods[i].getBody().getPosition().x*PPM-(shrew.getWidth()/2),
+						foods[i].getBody().getPosition().y*PPM-(shrew.getHeight()/2));
+		for(int i=0; i<10; i++){
+			if(enemies[i] instanceof Spider){
+				batch.draw(Enemies.SPIDER.getTexture(), enemies[i].getBody().getPosition().x*PPM- Enemies.SPIDER.getWidth()/2,
+						enemies[i].getBody().getPosition().y*PPM - Enemies.SPIDER.getHeight()/2);
+			}
+		}
 		super.batch.end();
 		super.orthogonalTiledMapRenderer.render();
 		super.box2DDebugRenderer.render(world, camera.combined.scl(PPM));

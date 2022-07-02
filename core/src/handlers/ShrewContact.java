@@ -3,6 +3,7 @@ package handlers;
 import com.badlogic.gdx.physics.box2d.*;
 import objects.player.Food;
 import objects.player.Player;
+import objects.player.Spider;
 
 public class ShrewContact implements ContactListener {
 
@@ -13,6 +14,9 @@ public class ShrewContact implements ContactListener {
 
         if(objA == null || objB == null) return;
         if(objA.getUserData() == null || objB.getUserData() == null) return;
+        if(objA.getUserData() instanceof Spider && objB.getUserData() instanceof Spider){
+
+        }
 
         if(isPlayerContact(objA, objB)) {
             Food food = (Food) objB.getUserData();
