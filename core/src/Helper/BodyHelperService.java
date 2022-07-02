@@ -1,6 +1,7 @@
 package Helper;
 
 import com.badlogic.gdx.physics.box2d.*;
+import objects.player.GameEntity;
 
 import static Helper.Constants.PPM;
 
