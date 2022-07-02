@@ -28,8 +28,7 @@ public abstract class GameScreen extends ScreenAdapter {
     OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     TileMapHelper tileMapHelper;
 
-    // obiekty gry
-    private Player player;
+    protected Player player;
 
     public GameScreen(MainGame game, String mapPath) {
     	this.font = new BitmapFont();
@@ -63,16 +62,11 @@ public abstract class GameScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         this.update();
-
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        orthogonalTiledMapRenderer.render();    // renderowanie mapy (ważne, aby pozostało to przed obiektami!!)
-
+        orthogonalTiledMapRenderer.render();
         batch.begin();
-        // renderowanie obiektów
-
-
         batch.end();
         box2DDebugRenderer.render(world, camera.combined.scl(PPM));
     }

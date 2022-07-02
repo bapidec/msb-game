@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector3;
+import static Helper.Constants.PPM;
 
 public class Summer extends GameScreen{
 	
@@ -18,7 +20,7 @@ public class Summer extends GameScreen{
 	        @Override
 	        public boolean keyDown(int keyCode) {
 	            if (keyCode == Input.Keys.SPACE) {
-	            	game.setScreen(new Winter(game, "map/map_0.tmx"));
+	            	game.setScreen(new Winter(game, "map/mapXD.tmx"));
 	            }
 	            return true;
 	        }
@@ -36,6 +38,15 @@ public class Summer extends GameScreen{
 	
 	@Override
     public void hide(){
-        Gdx.input.setInputProcessor(null);
+		Gdx.input.setInputProcessor(null);
     }
+
+	@Override
+	void cameraUpdate() {       // by kamera podążała za graczem
+		Vector3 position = camera.position;
+		position.x = Math.round(super.player.getBody().getPosition().x * PPM * 10) / 10f;
+		position.y = Math.round(super.player.getBody().getPosition().y * PPM * 10) / 10f;
+		camera.position.set(position);
+		camera.update();
+	}
 }
