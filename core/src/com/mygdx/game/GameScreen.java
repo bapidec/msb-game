@@ -11,13 +11,16 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import handlers.ShrewContact;
+import objects.player.Enemy;
 import objects.player.Food;
 import objects.player.Player;
 import objects.player.Spider;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
-import static Helper.Constants.PPM;
+import java.util.Random;
+
 import static Helper.Constants.SCALE;
 
 public abstract class GameScreen extends ScreenAdapter {
@@ -32,17 +35,21 @@ public abstract class GameScreen extends ScreenAdapter {
     Texture shrew;
     OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     TileMapHelper tileMapHelper;
-    TextureRegion[] shrewAnimationFrames;
-    Animation shrewAnimation;
-    float elapsedTime;
+
+    Texture shrew;
 
     protected Player player;
+
+    protected Food []foods;
+    protected Enemy[]enemies;
 
     protected ShrewContact shrewCollisions;
     protected Texture background;
     protected Sprite backgroundSprite;
+    public static Random rand;
 
     public GameScreen(MainGame game, String mapPath) {
+        this.rand = new Random();
     	this.font = new BitmapFont();
     	this.game = game;
     	this.widthScreen = Gdx.graphics.getWidth();
@@ -60,16 +67,43 @@ public abstract class GameScreen extends ScreenAdapter {
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap(mapPath);
 
+        this.foods = new Food[10];
+        this.enemies = new Enemy[10];
+        int temp=0;
+        for(int i=0; i<10; i++){
+            foods[i] = new Food(this.world, "", this.rand.nextInt(2496),850,16,16);
+        }
+        for(int i=0; i<10; i++){
+            temp = this.rand.nextInt(1);
+            if(temp%2 == 0){
+                this.enemies[i] = new Spider(this.rand.nextInt(2496), 850, this.world);
+            }else{
+
+            }
+        }
+        this.foods[1] = new Food(this.world, "", 200,100,64,64);
         this.shrew = new Texture("shrew_1.png");
     }
 
     public void update() {
         world.step(1/60f,6,2);
         cameraUpdate();
-
         batch.setProjectionMatrix(camera.combined);
         orthogonalTiledMapRenderer.setView(camera);
         player.update();
+        for(int i=0 ; i<10; i++) {
+            if (foods[i] != null && foods[i].getEaten()) {
+                this.world.destroyBody(this.foods[i].getBody());
+                this.foods[i].getBody().setUserData(null);
+                this.foods[i].setBody(null);
+                this.foods[i] = null;
+            }
+        }
+        for(int i=0 ; i<10; i++){
+            if(enemies[i]!=null){
+                enemies[i].update();
+            }
+        }
     }
 
     void cameraUpdate() {       // by kamera podążała za graczem
@@ -78,19 +112,7 @@ public abstract class GameScreen extends ScreenAdapter {
     }
 
     @Override
-    public abstract void render(float delta); //{
-//        this.update();
-//        Gdx.gl.glClearColor(0,0,0,1);
-//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//
-//        orthogonalTiledMapRenderer.render();
-//        batch.begin();
-//        batch.draw(shrew, player.getBody().getPosition().x*PPM-(shrew.getWidth()/2),player.getBody().getPosition().y*PPM-(shrew.getHeight()/2));
-//        if(food != null)
-//            batch.draw(shrew, food.getBody().getPosition().x*PPM-(shrew.getWidth()/2),food.getBody().getPosition().y*PPM-(shrew.getHeight()/2));
-//        batch.end();
-//        box2DDebugRenderer.render(world, camera.combined.scl(PPM));
-//    }
+    public abstract void render(float delta);
 
     public World getWorld() {       // potrzebny do Body
         return world;
