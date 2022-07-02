@@ -12,9 +12,11 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import handlers.ShrewContact;
 import objects.player.Food;
 import objects.player.Player;
+import objects.player.Spider;
 
 import static Helper.Constants.PPM;
 import static Helper.Constants.SCALE;
@@ -39,6 +41,8 @@ public abstract class GameScreen extends ScreenAdapter {
     protected Food food;
 
     protected ShrewContact shrewCollisions;
+    protected Texture background;
+    protected Sprite backgroundSprite;
 
     public GameScreen(MainGame game, String mapPath) {
     	this.font = new BitmapFont();
@@ -83,19 +87,19 @@ public abstract class GameScreen extends ScreenAdapter {
     }
 
     @Override
-    public void render(float delta) {
-        this.update();
-        Gdx.gl.glClearColor(0,0,0,1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        orthogonalTiledMapRenderer.render();
-        batch.begin();
-        batch.draw(shrew, player.getBody().getPosition().x*PPM-(shrew.getWidth()/2),player.getBody().getPosition().y*PPM-(shrew.getHeight()/2));
-        if(food != null)
-            batch.draw(shrew, food.getBody().getPosition().x*PPM-(shrew.getWidth()/2),food.getBody().getPosition().y*PPM-(shrew.getHeight()/2));
-        batch.end();
-        box2DDebugRenderer.render(world, camera.combined.scl(PPM));
-    }
+    public abstract void render(float delta); //{
+//        this.update();
+//        Gdx.gl.glClearColor(0,0,0,1);
+//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+//
+//        orthogonalTiledMapRenderer.render();
+//        batch.begin();
+//        batch.draw(shrew, player.getBody().getPosition().x*PPM-(shrew.getWidth()/2),player.getBody().getPosition().y*PPM-(shrew.getHeight()/2));
+//        if(food != null)
+//            batch.draw(shrew, food.getBody().getPosition().x*PPM-(shrew.getWidth()/2),food.getBody().getPosition().y*PPM-(shrew.getHeight()/2));
+//        batch.end();
+//        box2DDebugRenderer.render(world, camera.combined.scl(PPM));
+//    }
 
     public World getWorld() {       // potrzebny do Body
         return world;

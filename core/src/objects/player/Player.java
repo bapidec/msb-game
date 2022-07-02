@@ -13,7 +13,7 @@ public class Player extends GameEntity {
     private int jumpcounter=0;
     public Player(float width, float height, Body body) {
         super(width, height, body);
-        this.speed = 4f;
+        super.speed = 4f;
     }
 
     private void checkUserInput(){
@@ -43,7 +43,7 @@ public class Player extends GameEntity {
         }
 
         if(body.getLinearVelocity().y == 0) {
-            jumpcounter = 0;
+            this.jumpcounter = 0;
         }
 
         body.setLinearVelocity(velX*speed, body.getLinearVelocity().y);
