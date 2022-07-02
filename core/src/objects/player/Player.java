@@ -13,37 +13,23 @@ public class Player extends GameEntity {
     private int jumpcounter=0;
     public Player(float width, float height, Body body) {
         super(width, height, body);
-        this.speed = 4f;
+        super.speed = 4f;
     }
 
     private void checkUserInput(){
-//        if(Gdx.input.isKeyJustPressed(Input.Keys.A)){
-//            super.velX = -1;
-//        }else if(Gdx.input.isKeyJustPressed(Input.Keys.D)){
-//            super.velX = 1;
-//        }else if(Gdx.input.isKeyJustPressed(Input.Keys.W)){
-//            super.velY = 1;
-//        }else if(Gdx.input.isKeyJustPressed(Input.Keys.S)){
-//            super.velY = -1;
-//        }else{
-//            super.velX=0;
-//            super.velY=0;
-//        }
-//
-//        body.setLinearVelocity(super.velX+super.speed, super.body.getLinearVelocity().y);
         super.velX = 0;
         if(Gdx.input.isKeyPressed(Input.Keys.D))
-            super.velX += 1;
+            super.velX = 1;
         if(Gdx.input.isKeyPressed(Input.Keys.A))
-            super.velX += -1;
-        if (Gdx.input.isKeyJustPressed(Input.Keys.W) && this.jumpcounter <1) {
-            float force = body.getMass() * 12;
-            body.applyLinearImpulse(new Vector2(0,force),body.getPosition(),true);
+            super.velX = -1;
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && this.jumpcounter <2) {
+            float force = body.getMass() * 18;
+            super.body.applyLinearImpulse(new Vector2(0,force),body.getPosition(),true);
             this.jumpcounter++;
         }
 
         if(body.getLinearVelocity().y == 0) {
-            jumpcounter = 0;
+            this.jumpcounter = 0;
         }
 
         body.setLinearVelocity(velX*speed, body.getLinearVelocity().y);
