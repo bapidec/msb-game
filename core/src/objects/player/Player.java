@@ -2,6 +2,7 @@ package objects.player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -11,6 +12,10 @@ import static Helper.Constants.PPM;
 public class Player extends GameEntity {
 
     private int jumpcounter=0;
+    private int power=0;
+
+    Sound eatingSound = Gdx.audio.newSound(Gdx.files.internal("music/ryjowka_je.mp3"));
+
     public Player(float width, float height, Body body) {
         super(width, height, body);
         super.speed = 4f;
@@ -59,5 +64,10 @@ public class Player extends GameEntity {
     @Override
     public void render(SpriteBatch batch) {
 
+    }
+
+    public void eat() {
+        this.power++;
+        eatingSound.play(5.0f);
     }
 }

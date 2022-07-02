@@ -14,9 +14,11 @@ public class ShrewContact implements ContactListener {
         if(objA == null || objB == null) return;
         if(objA.getUserData() == null || objB.getUserData() == null) return;
 
-        if(isPlayerContact(objA, objB)) {
+        if(isPlayerFoodContact(objA, objB)) {
+            Player player = (Player) objA.getUserData();
             Food food = (Food) objB.getUserData();
             food.eaten();
+            player.eat();
         }
     }
 
@@ -34,7 +36,7 @@ public class ShrewContact implements ContactListener {
     public void postSolve(Contact contact, ContactImpulse impulse) {
     }
 
-    private boolean isPlayerContact(Fixture a, Fixture b) {
+    private boolean isPlayerFoodContact(Fixture a, Fixture b) {
         return (a.getUserData() instanceof Player && b.getUserData() instanceof Food);
     }
 }

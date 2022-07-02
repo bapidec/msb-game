@@ -5,18 +5,17 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import handlers.ShrewContact;
 import objects.player.Food;
 import objects.player.Player;
 import objects.player.Spider;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import static Helper.Constants.PPM;
 import static Helper.Constants.SCALE;
@@ -30,15 +29,14 @@ public abstract class GameScreen extends ScreenAdapter {
     int widthScreen, heightScreen;
     MainGame game;
 	BitmapFont font;
-
+    Texture shrew;
     OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     TileMapHelper tileMapHelper;
-
-    Texture shrew;
+    TextureRegion[] shrewAnimationFrames;
+    Animation shrewAnimation;
+    float elapsedTime;
 
     protected Player player;
-
-    protected Food food;
 
     protected ShrewContact shrewCollisions;
     protected Texture background;
@@ -62,23 +60,16 @@ public abstract class GameScreen extends ScreenAdapter {
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap(mapPath);
 
-        shrew = new Texture("shrew.jpg");
-        this.food = new Food(this.world, "Ziarno", 200,100,64,64);
+        this.shrew = new Texture("shrew_1.png");
     }
 
-    void update() {
+    public void update() {
         world.step(1/60f,6,2);
         cameraUpdate();
 
         batch.setProjectionMatrix(camera.combined);
         orthogonalTiledMapRenderer.setView(camera);
         player.update();
-        if(food != null && food.getEaten()) {
-            this.world.destroyBody(this.food.getBody());
-            this.food.getBody().setUserData(null);
-            this.food.setBody(null);
-            this.food = null;
-        }
     }
 
     void cameraUpdate() {       // by kamera podążała za graczem
