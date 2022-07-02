@@ -5,18 +5,29 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import static Helper.Constants.PPM;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import objects.player.Food;
 import objects.player.Spider;
 
 public class Summer extends GameScreen{
-	
+	private Texture[] seeds;
+	private Food food;
 	public Summer(MainGame game, String mapPath) {
 		super(game, mapPath);
+
 		super.background = new Texture("map/summer.png");
 		super.backgroundSprite = new Sprite(super.background);
+
+		this.seeds = new Texture[3];
+		this.seeds[0] = new Texture("seed_1.png");
+		this.seeds[1] = new Texture("seed_2.png");
+		this.seeds[2] = new Texture("seed_3.png");
+
+		this.food = new Food(this.world, "Ziarno", 200,100,10,10);
 	}
 	
 	@Override
@@ -31,23 +42,32 @@ public class Summer extends GameScreen{
 	        }
 	    });
 	}
+	@Override
+	public void update() {
+		super.update();
+		if(this.food != null && this.food.getEaten()) {
+			this.world.destroyBody(this.food.getBody());
+			this.food.getBody().setUserData(null);
+			this.food.setBody(null);
+			this.food = null;
+		}
+	}
 
 	@Override
 	public void render(float delta) {
-		super.update();
+		this.update();
 		Gdx.gl.glClearColor(0,0,0,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		orthogonalTiledMapRenderer.render();
 		super.batch.begin();
 		super.backgroundSprite.setPosition(super.player.getBody().getPosition().x * PPM - super.background.getWidth()/2f, super.player.getBody().getPosition().y * PPM-  96);
 		super.backgroundSprite.draw(super.batch);
-		batch.draw(shrew, player.getBody().getPosition().x*PPM-(shrew.getWidth()/2),player.getBody().getPosition().y*PPM-(shrew.getHeight()/2));
-		if(food != null)
-			batch.draw(shrew, food.getBody().getPosition().x*PPM-(shrew.getWidth()/2),food.getBody().getPosition().y*PPM-(shrew.getHeight()/2));
+		super.batch.draw(super.shrew,player.getBody().getPosition().x*PPM-32,player.getBody().getPosition().y*PPM-32);
+		if(this.food != null) {
+			batch.draw(seeds[0], this.food.getBody().getPosition().x * PPM - (seeds[0].getWidth() / 2), this.food.getBody().getPosition().y * PPM - (seeds[0].getHeight() / 2));
+		}
 		super.batch.end();
 		super.orthogonalTiledMapRenderer.render();
 		super.box2DDebugRenderer.render(world, camera.combined.scl(PPM));
-
 	}
 	
 	@Override
