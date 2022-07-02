@@ -2,8 +2,6 @@ package objects.player;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.utils.Array;
 
 public abstract class GameEntity {
 
@@ -20,10 +18,6 @@ public abstract class GameEntity {
         this.velX = 0;
         this.velY = 0;
         this.speed = 0;
-        Array<Fixture> fixtures = this.body.getFixtureList();
-        for(Fixture fix : fixtures) {
-            fix.setUserData(this);
-        }
     }
 
     public abstract void update();

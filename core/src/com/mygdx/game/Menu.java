@@ -57,18 +57,14 @@ public class Menu extends MainGame {
             }
         });
 
-
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
-
-
     }
 
     public void hide() {
 
         batch.dispose();
         butonAtlas.dispose();
-
         skin.dispose();
     }
 

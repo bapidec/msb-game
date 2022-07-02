@@ -5,6 +5,7 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -12,12 +13,10 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import handlers.ShrewContact;
-import objects.player.Food;
 import objects.player.Player;
+import objects.player.Spider;
 
 import static Helper.Constants.PPM;
-import static Helper.Constants.SCALE;
 
 public abstract class GameScreen extends ScreenAdapter {
 
@@ -28,17 +27,13 @@ public abstract class GameScreen extends ScreenAdapter {
     int widthScreen, heightScreen;
     MainGame game;
 	BitmapFont font;
+    protected Texture background;
+    protected Sprite backgroundSprite;
 
     OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     TileMapHelper tileMapHelper;
 
-    Texture shrew;
-
     protected Player player;
-
-    protected Food food;
-
-    protected ShrewContact shrewCollisions;
 
     public GameScreen(MainGame game, String mapPath) {
     	this.font = new BitmapFont();
@@ -46,20 +41,13 @@ public abstract class GameScreen extends ScreenAdapter {
     	this.widthScreen = Gdx.graphics.getWidth();
 		this.heightScreen = Gdx.graphics.getHeight();
 		this.camera = new OrthographicCamera();
-		this.camera.setToOrtho(false, widthScreen/SCALE, heightScreen/SCALE);
+		this.camera.setToOrtho(false, widthScreen, heightScreen);
         this.batch = new SpriteBatch();
-
-        this.world = new World(new Vector2(0,-25), false);
-        this.shrewCollisions = new ShrewContact();
-        this.world.setContactListener(shrewCollisions);
-
+        this.world = new World(new Vector2(0,-25f), false);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
 
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap(mapPath);
-
-        shrew = new Texture("shrew.jpg");
-        this.food = new Food(this.world, "Ziarno", 200,100,64,64);
     }
 
     void update() {
@@ -69,16 +57,10 @@ public abstract class GameScreen extends ScreenAdapter {
         batch.setProjectionMatrix(camera.combined);
         orthogonalTiledMapRenderer.setView(camera);
         player.update();
-        if(food != null && food.getEaten()) {
-            this.world.destroyBody(this.food.getBody());
-            this.food.getBody().setUserData(null);
-            this.food.setBody(null);
-            this.food = null;
-        }
     }
 
     void cameraUpdate() {       // by kamera podążała za graczem
-        camera.position.set(new Vector3(0,0,0));
+        camera.position.set(new Vector3(0,0, 0));
         camera.update();
     }
 
@@ -89,11 +71,8 @@ public abstract class GameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         orthogonalTiledMapRenderer.render();
-        batch.begin();
-        batch.draw(shrew, player.getBody().getPosition().x*PPM-(shrew.getWidth()/2),player.getBody().getPosition().y*PPM-(shrew.getHeight()/2));
-        if(food != null)
-            batch.draw(shrew, food.getBody().getPosition().x*PPM-(shrew.getWidth()/2),food.getBody().getPosition().y*PPM-(shrew.getHeight()/2));
-        batch.end();
+        this.batch.begin();
+        this.batch.end();
         box2DDebugRenderer.render(world, camera.combined.scl(PPM));
     }
 
