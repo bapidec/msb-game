@@ -24,12 +24,12 @@ public class Player extends GameEntity {
     private void checkUserInput(){
         super.velX = 0;
         if(Gdx.input.isKeyPressed(Input.Keys.D))
-            super.velX += 1;
+            super.velX = 1;
         if(Gdx.input.isKeyPressed(Input.Keys.A))
-            super.velX += -1;
-        if (Gdx.input.isKeyJustPressed(Input.Keys.W) && this.jumpcounter <1) {
-            float force = body.getMass() * 12;
-            body.applyLinearImpulse(new Vector2(0,force),body.getPosition(),true);
+            super.velX = -1;
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && this.jumpcounter <2) {
+            float force = body.getMass() * 18;
+            super.body.applyLinearImpulse(new Vector2(0,force),body.getPosition(),true);
             this.jumpcounter++;
         }
 
