@@ -48,8 +48,8 @@ public class Summer extends GameScreen{
 	}
 	@Override
 	public void update() {
-		if(player.getPower() <=-50)
-			super.game.setScreen(new GameOver(super.game, player.getPower()));
+		if(player.getPower() <= -50)
+			super.game.setScreen(new GameOver(super.game));
 		super.update();
 		it++;
 		if(it%120==0){

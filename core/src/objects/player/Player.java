@@ -17,6 +17,7 @@ import static Helper.Constants.PPM;
 public class Player extends GameEntity {
 
     private int jumpcounter=0;
+
     private int power=0;
     private boolean direction=false; //true-lewo    false-prawo
     private GameScreen gameScreen;
@@ -24,6 +25,7 @@ public class Player extends GameEntity {
     Sound eatingSound = Gdx.audio.newSound(Gdx.files.internal("music/ryjowka_je.mp3"));
     Sound walkingSound = Gdx.audio.newSound(Gdx.files.internal("music/ryjowka_ruch.mp3"));
     Sound jumpingSound = Gdx.audio.newSound(Gdx.files.internal("music/ryjowka_skok.mp3"));
+    Sound hitSound = Gdx.audio.newSound(Gdx.files.internal("music/Zgon.mp3"));
     private int walkDuration=0;
 
     public Player(float width, float height, Body body, GameScreen gameScreen) {
@@ -93,6 +95,7 @@ public class Player extends GameEntity {
 
     public void hit() {
         this.power-=10;
+        hitSound.play(0.5f);
     }
     public void eat(int l) {
         this.power+=l;
@@ -101,6 +104,7 @@ public class Player extends GameEntity {
 
     public void hit(int l) {
         this.power-=l;
+
     }
     public int getPower() {
         return this.power;
