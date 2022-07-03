@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -35,7 +37,11 @@ public abstract class GameScreen extends ScreenAdapter {
     TileMapHelper tileMapHelper;
 
     Texture shrew;
+    TextureRegion [] animationFrames;
+    Animation<TextureRegion> animation;
 
+    float stateTime;
+    TextureRegion reg;
     protected Player player;
 
     protected Food food;
@@ -62,7 +68,7 @@ public abstract class GameScreen extends ScreenAdapter {
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap(mapPath);
 
-        shrew = new Texture("shrew.jpg");
+//        shrew = new Texture("shrew.jpg");
         this.food = new Food(this.world, "Ziarno", 200,100,64,64);
     }
 
@@ -86,20 +92,31 @@ public abstract class GameScreen extends ScreenAdapter {
         camera.update();
     }
 
+//    @Override
+    public void create () {
+        batch = new SpriteBatch();
+        shrew = new Texture("shrew.png");
+
+        TextureRegion[][] tmpFrames = TextureRegion.split(shrew,64,64);
+        animationFrames = new TextureRegion[2];
+        int index = 0;
+
+        for (int i = 0; i < 2; i++){
+            animationFrames[index++] = tmpFrames[0][i];
+        }
+        animation = new Animation<TextureRegion>(0.025f, animationFrames);
+        stateTime = 0f;
+//        reg = animation.getKeyFrame(0);
+    }
+
+    public void dispose() {
+//        batch.dispose();
+//        shrew.dispose();
+    }
+
     @Override
-    public abstract void render(float delta); //{
-//        this.update();
-//        Gdx.gl.glClearColor(0,0,0,1);
-//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//
-//        orthogonalTiledMapRenderer.render();
-//        batch.begin();
-//        batch.draw(shrew, player.getBody().getPosition().x*PPM-(shrew.getWidth()/2),player.getBody().getPosition().y*PPM-(shrew.getHeight()/2));
-//        if(food != null)
-//            batch.draw(shrew, food.getBody().getPosition().x*PPM-(shrew.getWidth()/2),food.getBody().getPosition().y*PPM-(shrew.getHeight()/2));
-//        batch.end();
-//        box2DDebugRenderer.render(world, camera.combined.scl(PPM));
-//    }
+    public abstract void render(float delta);
+
 
     public World getWorld() {       // potrzebny do Body
         return world;
@@ -109,4 +126,8 @@ public abstract class GameScreen extends ScreenAdapter {
         this.player = player;
     }
 
+//    @Override
+//    public void resize(int width, int height) {
+//        stage.getViewport().update(width,height);
+//    }
 }

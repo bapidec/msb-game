@@ -1,17 +1,21 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import static Helper.Constants.PPM;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import objects.player.Spider;
 
-public class Summer extends GameScreen{
+import javax.swing.plaf.synth.Region;
+
+public class Summer extends GameScreen {
 	
 	public Summer(MainGame game, String mapPath) {
 		super(game, mapPath);
@@ -34,22 +38,37 @@ public class Summer extends GameScreen{
 
 	@Override
 	public void render(float delta) {
+		super.create();
 		super.update();
-		Gdx.gl.glClearColor(0,0,0,1);
+
+//		Gdx.gl.glClearColor(0,0,0,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		orthogonalTiledMapRenderer.render();
+		super.stateTime += Gdx.graphics.getDeltaTime();
+//		orthogonalTiledMapRenderer.render();
+		TextureRegion currentFrame =  super.animation.getKeyFrame(stateTime,true);
+//		currentFrame.setRegionHeight(600);
+//		currentFrame.setRegionWidth(600);
 		super.batch.begin();
 		super.backgroundSprite.setPosition(super.player.getBody().getPosition().x * PPM - super.background.getWidth()/2f, super.player.getBody().getPosition().y * PPM-  96);
 		super.backgroundSprite.draw(super.batch);
-		batch.draw(shrew, player.getBody().getPosition().x*PPM-(shrew.getWidth()/2),player.getBody().getPosition().y*PPM-(shrew.getHeight()/2));
+//		super.batch.draw(currentFrame,50,50);
+		super.batch.draw(currentFrame, player.getBody().getPosition().x*PPM-(currentFrame.getRegionWidth()/2),player.getBody().getPosition().y*PPM-(currentFrame.getRegionHeight()/2));
+//		, 0,0, currentFrame.getRegionWidth(),currentFrame.getRegionHeight(),10,10,90
 		if(food != null)
-			batch.draw(shrew, food.getBody().getPosition().x*PPM-(shrew.getWidth()/2),food.getBody().getPosition().y*PPM-(shrew.getHeight()/2));
+			batch.draw(currentFrame, food.getBody().getPosition().x*PPM-(currentFrame.getRegionWidth()/2),food.getBody().getPosition().y*PPM-(currentFrame.getRegionHeight()/2));
+
 		super.batch.end();
 		super.orthogonalTiledMapRenderer.render();
 		super.box2DDebugRenderer.render(world, camera.combined.scl(PPM));
 
 	}
-	
+
+	@Override
+	public void dispose() {
+		batch.dispose();
+		shrew.dispose();
+	}
+
 	@Override
     public void hide(){
 		Gdx.input.setInputProcessor(null);
