@@ -40,7 +40,7 @@ public abstract class GameScreen extends ScreenAdapter {
     protected Player player;
     protected Venom projectile;
 
-    protected Enemy[]enemies;
+    protected Enemy[] enemies;
 
     protected ShrewContact shrewCollisions;
     protected Texture background;

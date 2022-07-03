@@ -11,10 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import static Helper.Constants.PPM;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import objects.player.Enemies;
-import objects.player.Enemy;
-import objects.player.Food;
-import objects.player.Spider;
+import objects.player.*;
 
 public class Summer extends GameScreen{
 	private Texture[] seeds;
@@ -32,17 +29,15 @@ public class Summer extends GameScreen{
 		this.seeds[2] = new Texture("seed_3.png");
 
 		this.foods = new Food[10];
-		this.enemies = new Enemy[10];
-		int temp=0;
+		super.enemies = new Enemy[10];
 		for(int i=0; i<10; i++){
 			foods[i] = new Food(this.world, "", this.rand.nextInt(2496),850,16,16);
 		}
 		for(int i=0; i<10; i++){
-			temp = this.rand.nextInt(1);
-			if(temp%2 == 0){
-				this.enemies[i] = new Spider(this.rand.nextInt(2496), 850, this.world);
+			if(i%2 == 0){
+				super.enemies[i] = new Spider(this.rand.nextInt(2496), 850, this.world);
 			}else{
-
+				super.enemies[i] = new Larva(this.rand.nextInt(2496), 850, this.world);
 			}
 		}
 
@@ -67,6 +62,11 @@ public class Summer extends GameScreen{
 				this.foods[i] = null;
 			}
 		}
+		for(Enemy e: super.enemies)
+			if(!e.isAlife()){
+				e.createEnemy();
+				System.out.println("hahahuhujhuj");
+			}
 	}
 
 	@Override
@@ -85,11 +85,9 @@ public class Summer extends GameScreen{
 			if(foods[i] != null)
 				batch.draw(shrew, foods[i].getBody().getPosition().x*PPM-(shrew.getWidth()/2),
 						foods[i].getBody().getPosition().y*PPM-(shrew.getHeight()/2));
-		for(int i=0; i<10; i++){
-			if(enemies[i] instanceof Spider){
-				batch.draw(Enemies.SPIDER.getTexture(), enemies[i].getBody().getPosition().x*PPM- Enemies.SPIDER.getWidth()/2,
-						enemies[i].getBody().getPosition().y*PPM - Enemies.SPIDER.getHeight()/2);
-			}
+
+		for(Enemy e: super.enemies){
+			e.render(super.batch);
 		}
 		if(super.projectile != null) {
 			super.batch.draw(super.venom, super.projectile.getBody().getPosition().x*PPM,super.projectile.getBody().getPosition().y*PPM);

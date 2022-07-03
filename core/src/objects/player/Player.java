@@ -30,6 +30,7 @@ public class Player extends GameEntity {
 
     private void checkUserInput(){
         super.velX = 0;
+
         if(Gdx.input.isKeyPressed(Input.Keys.D)) {
             super.velX += 1;
             this.direction = false;
