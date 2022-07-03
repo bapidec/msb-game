@@ -8,4 +8,5 @@ public class Constants {
     public static final short BIT_SPIDER = 2;
     public static final short BIT_FOOD = 4;
     public static final short BIT_PROJECTILE = 8;
+    public static final short BIT_PLATFORM = 16;
 }
