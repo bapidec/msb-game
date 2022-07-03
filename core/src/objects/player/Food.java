@@ -1,6 +1,7 @@
 package objects.player;
 
 import Helper.BodyHelperService;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 
@@ -10,8 +11,10 @@ public class Food{
     private String name;
 
     private boolean isEaten;
+    public Texture texture;
 
-    public Food(World world, String name, float x, float y, float width, float height) {
+    public Food(World world, String name, float x, float y, float width, float height, Texture texture) {
+        this.texture = texture;
         this.name = name;
         this.isEaten = false;
         this.body = BodyHelperService.createBody(x, y, width, height, false, world);

@@ -18,6 +18,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import handlers.ShrewContact;
 import objects.player.*;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import static Helper.Constants.PPM;
@@ -40,7 +41,7 @@ public abstract class GameScreen extends ScreenAdapter {
     protected Player player;
     protected Venom projectile;
 
-    protected Enemy[]enemies;
+    protected ArrayList<Enemy> enemies;
 
     protected ShrewContact shrewCollisions;
     protected Texture background;
@@ -56,6 +57,7 @@ public abstract class GameScreen extends ScreenAdapter {
 		this.camera = new OrthographicCamera();
 		this.camera.setToOrtho(false, widthScreen/SCALE, heightScreen/SCALE);
         this.batch = new SpriteBatch();
+        this.enemies = new ArrayList<Enemy>();
 
         this.world = new World(new Vector2(0,-25), false);
         this.shrewCollisions = new ShrewContact();
@@ -88,10 +90,8 @@ public abstract class GameScreen extends ScreenAdapter {
         batch.setProjectionMatrix(camera.combined);
         orthogonalTiledMapRenderer.setView(camera);
         player.update();
-        for(int i=0 ; i<10; i++){
-            if(enemies[i]!=null){
-                enemies[i].update();
-            }
+        for(Enemy e: enemies){
+            e.update();
         }
     }
 
@@ -115,9 +115,11 @@ public abstract class GameScreen extends ScreenAdapter {
         Body venomBody;
         if(this.projectile == null) {
             if(!direction)
-                venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x*PPM+33,this.player.getBody().getPosition().y*PPM, 2, 1, false, this.world);
+                venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x*PPM+33,
+                        this.player.getBody().getPosition().y*PPM, 2, 1, false, this.world);
             else
-                venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x*PPM-33,this.player.getBody().getPosition().y*PPM, 2, 1, false, this.world);
+                venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x*PPM-33,
+                        this.player.getBody().getPosition().y*PPM, 2, 1, false, this.world);
             this.projectile = new Venom(2, 1, venomBody, direction);
         }
     }

@@ -9,8 +9,9 @@ import com.mygdx.game.GameScreen;
 
 import static Helper.Constants.PPM;
 
-public class Enemy extends GameEntity{
+public abstract class Enemy extends GameEntity{
     protected Texture texture;
+    protected boolean isAlife = true;
 
     public Enemy(Enemies type, int locX, int locY, World world) {
         super(type.getWidth(), type.getHeight(), BodyHelperService.createBody(locX, locY,
@@ -31,7 +32,21 @@ public class Enemy extends GameEntity{
 
     @Override
     public void render(SpriteBatch batch) {
+        if(super.getBody().getPosition().y<0){
+            this.isAlife = false;
+        }
+    }
 
+    public boolean isAlife(){
+        return this.isAlife;
+    }
+
+    public void killEnemy(){
+        this.isAlife = false;
+    }
+
+    public Body getBody(){
+        return super.body;
     }
     public void setBody(Body newBody) {
         this.body = newBody;
