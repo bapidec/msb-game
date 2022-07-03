@@ -4,6 +4,7 @@ import Helper.BodyHelperService;
 import Helper.Constants;
 import Helper.TileMapHelper;
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -47,6 +48,7 @@ public abstract class GameScreen extends ScreenAdapter {
     protected Texture background;
     protected Sprite backgroundSprite;
     public static Random rand;
+    Sound spitSound = Gdx.audio.newSound(Gdx.files.internal("music/ryjowka_plucie_trucizna.mp3"));
 
     public GameScreen(MainGame game, String mapPath) {
         this.rand = new Random();
@@ -94,6 +96,13 @@ public abstract class GameScreen extends ScreenAdapter {
                 enemies[i].update();
             }
         }
+        if(this.projectile != null)
+            if(!this.projectile.getExists() || this.projectile.getBody().getPosition().y <0) {
+            this.world.destroyBody(this.projectile.getBody());
+            this.projectile.getBody().setUserData(null);
+            this.projectile = null;
+            }
+
     }
 
     void cameraUpdate() {       // by kamera podążała za graczem
@@ -116,10 +125,11 @@ public abstract class GameScreen extends ScreenAdapter {
         Body venomBody;
         if(this.projectile == null) {
             if(!direction)
-                venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x*PPM+33,this.player.getBody().getPosition().y*PPM, 2, 1, false, this.world, Constants.BIT_PROJECTILE, (short) (Constants.BIT_SPIDER | Constants.BIT_PLATFORM));
+                venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x*PPM+33,this.player.getBody().getPosition().y*PPM, 2, 1, false, this.world, Constants.BIT_PROJECTILE, (short) (Constants.BIT_SPIDER | Constants.BIT_PLATFORM | Constants.BIT_FOOD));
             else
-                venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x*PPM-33,this.player.getBody().getPosition().y*PPM, 2, 1, false, this.world, Constants.BIT_PROJECTILE, (short) (Constants.BIT_SPIDER | Constants.BIT_PLATFORM));
+                venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x*PPM-33,this.player.getBody().getPosition().y*PPM, 2, 1, false, this.world, Constants.BIT_PROJECTILE, (short) (Constants.BIT_SPIDER | Constants.BIT_PLATFORM | Constants.BIT_PROJECTILE));
             this.projectile = new Venom(2, 1, venomBody, direction);
+            spitSound.play(5.0f);
         }
     }
 }
