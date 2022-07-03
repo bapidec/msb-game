@@ -112,6 +112,7 @@ public class Summer extends GameScreen{
 		}
 
 		if(super.projectile != null) {
+
 			super.batch.draw(super.venom, super.projectile.getBody().getPosition().x*PPM,
 					super.projectile.getBody().getPosition().y*PPM);
 		}

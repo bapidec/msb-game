@@ -1,6 +1,7 @@
 package handlers;
 
 import com.badlogic.gdx.physics.box2d.*;
+import jdk.tools.jlink.internal.Platform;
 import objects.player.*;
 
 public class ShrewContact implements ContactListener {
@@ -23,7 +24,17 @@ public class ShrewContact implements ContactListener {
         if(isProjectileEnemyContact(objA, objB)) {
             Venom venom = (Venom) objA.getUserData();
             Enemy enemy = (Enemy) objB.getUserData();
-//            enemy.killEnemy();
+            //enemy.killEnemy();
+            venom.gone();
+        }
+
+        if(isProjectilePlatformContact(objA, objB)) {
+            Venom venom = (Venom) objA.getUserData();
+            venom.gone();
+        }
+
+        if(isProjectileFoodContact(objA, objB)) {
+            Venom venom = (Venom) objA.getUserData();
             venom.gone();
         }
     }
@@ -49,7 +60,10 @@ public class ShrewContact implements ContactListener {
     private boolean isProjectileEnemyContact(Fixture a, Fixture b) {
         return (a.getUserData() instanceof Venom && b.getUserData() instanceof Enemy);
     }
-    private boolean isProjectileContact(Fixture a, Fixture b) {
-        return (a.getUserData() instanceof Venom || b.getUserData() instanceof Venom);
+    private boolean isProjectilePlatformContact(Fixture a, Fixture b) {
+        return (a.getUserData() instanceof Venom && b.getUserData() instanceof Platform);
+    }
+    private boolean isProjectileFoodContact(Fixture a, Fixture b) {
+        return (a.getUserData() instanceof Venom && b.getUserData() instanceof Food);
     }
 }

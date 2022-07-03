@@ -1,6 +1,7 @@
 package objects.player;
 
 import Helper.BodyHelperService;
+import Helper.Constants;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
@@ -17,7 +18,7 @@ public class Food{
         this.texture = texture;
         this.name = name;
         this.isEaten = false;
-        this.body = BodyHelperService.createBody(x, y, width, height, false, world);
+        this.body = BodyHelperService.createBody(x, y, width, height, false, world, Constants.BIT_FOOD, (short) (Constants.BIT_PLATFORM | Constants.BIT_PLAYER));
         Array<Fixture> fixtures = this.body.getFixtureList();
         for(Fixture fix : fixtures) {
             fix.setUserData(this);

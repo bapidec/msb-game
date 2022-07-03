@@ -1,6 +1,7 @@
 package objects.player;
 
 import Helper.BodyHelperService;
+import Helper.Constants;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -15,7 +16,7 @@ public abstract class Enemy extends GameEntity{
 
     public Enemy(Enemies type, int locX, int locY, World world) {
         super(type.getWidth(), type.getHeight(), BodyHelperService.createBody(locX, locY,
-                type.getWidth(), type.getHeight(), false, world));
+                type.getWidth(), type.getHeight(), false, world, Constants.BIT_SPIDER, (short)(Constants.BIT_PLAYER | Constants.BIT_PLATFORM | Constants.BIT_PROJECTILE)));
         if(GameScreen.rand.nextInt(2) == 0){
             super.velX=0.5f;
         }else{
