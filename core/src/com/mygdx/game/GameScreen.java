@@ -116,9 +116,9 @@ public abstract class GameScreen extends ScreenAdapter {
         Body venomBody;
         if(this.projectile == null) {
             if(!direction)
-                venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x*PPM+33,this.player.getBody().getPosition().y*PPM, 2, 1, false, this.world, Constants.BIT_PROJECTILE, Constants.BIT_SPIDER | Constants.BIT_PLATFORM);
+                venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x*PPM+33,this.player.getBody().getPosition().y*PPM, 2, 1, false, this.world, Constants.BIT_PROJECTILE, (short) (Constants.BIT_SPIDER | Constants.BIT_PLATFORM));
             else
-                venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x*PPM-33,this.player.getBody().getPosition().y*PPM, 2, 1, false, this.world, Constants.BIT_PROJECTILE, Constants.BIT_SPIDER | Constants.BIT_PLATFORM);
+                venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x*PPM-33,this.player.getBody().getPosition().y*PPM, 2, 1, false, this.world, Constants.BIT_PROJECTILE, (short) (Constants.BIT_SPIDER | Constants.BIT_PLATFORM));
             this.projectile = new Venom(2, 1, venomBody, direction);
         }
     }

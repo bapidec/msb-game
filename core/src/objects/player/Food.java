@@ -15,7 +15,7 @@ public class Food{
     public Food(World world, String name, float x, float y, float width, float height) {
         this.name = name;
         this.isEaten = false;
-        this.body = BodyHelperService.createBody(x, y, width, height, false, world, Constants.BIT_FOOD, Constants.BIT_PLATFORM);
+        this.body = BodyHelperService.createBody(x, y, width, height, false, world, Constants.BIT_FOOD, (short) (Constants.BIT_PLATFORM | Constants.BIT_PLAYER));
         Array<Fixture> fixtures = this.body.getFixtureList();
         for(Fixture fix : fixtures) {
             fix.setUserData(this);
