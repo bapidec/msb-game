@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -18,6 +19,7 @@ import objects.player.Spider;
 public class Summer extends GameScreen{
 	private Texture[] seeds;
 	private Food []foods;
+	Music summerTheme;
 	public Summer(MainGame game, String mapPath) {
 		super(game, mapPath);
 
@@ -43,11 +45,16 @@ public class Summer extends GameScreen{
 
 			}
 		}
-		this.shrew = new Texture("shrew_1.png");
+
+		summerTheme = Gdx.audio.newMusic(Gdx.files.internal("music/Summer Theme.mp3"));
+		summerTheme.setLooping(true);
+		summerTheme.setVolume(0.25f);
 	}
 	
 	@Override
 	public void show() {
+		super.show();
+		summerTheme.play();
 	}
 	@Override
 	public void update() {
@@ -67,7 +74,7 @@ public class Summer extends GameScreen{
 		this.update();
 		Gdx.gl.glClearColor(0,0,0,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		orthogonalTiledMapRenderer.render();
+		//orthogonalTiledMapRenderer.render();
 		super.batch.begin();
 		super.backgroundSprite.setPosition(super.player.getBody().getPosition().x * PPM - super.background.getWidth()/2f,
 				super.player.getBody().getPosition().y * PPM-  96);
@@ -84,7 +91,9 @@ public class Summer extends GameScreen{
 						enemies[i].getBody().getPosition().y*PPM - Enemies.SPIDER.getHeight()/2);
 			}
 		}
-		super.batch.draw(super.shrew,player.getBody().getPosition().x*PPM-32,player.getBody().getPosition().y*PPM-32);
+		if(super.projectile != null) {
+			super.batch.draw(super.venom, super.projectile.getBody().getPosition().x*PPM,super.projectile.getBody().getPosition().y*PPM);
+		}
 		super.batch.end();
 		super.orthogonalTiledMapRenderer.render();
 		super.box2DDebugRenderer.render(world, camera.combined.scl(PPM));
@@ -94,6 +103,7 @@ public class Summer extends GameScreen{
 	@Override
     public void hide(){
 		Gdx.input.setInputProcessor(null);
+		summerTheme.stop();
     }
 
 	@Override
