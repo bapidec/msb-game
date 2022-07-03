@@ -45,10 +45,8 @@ public class TileMapHelper {
                 String rectangleName = mapObject.getName();
 
                 if(rectangleName.equals("player")) {
-                    Body body = BodyHelperService.createBody(rectangle.getX() + rectangle.getWidth() / 2,
-                            rectangle.getY() + rectangle.getHeight() / 2, rectangle.getWidth(),
-                            rectangle.getHeight(), false, gameScreen.getWorld());
-                    gameScreen.setPlayer(new Player(rectangle.getWidth(), rectangle.getHeight(), body));
+                    Body body = BodyHelperService.createBody(rectangle.getX() + rectangle.getWidth() / 2, rectangle.getY() + rectangle.getHeight() / 2, rectangle.getWidth(), rectangle.getHeight(), false, gameScreen.getWorld());
+                    gameScreen.setPlayer(new Player(rectangle.getWidth(), rectangle.getHeight(), body, this.gameScreen));
                 }
             }
         }

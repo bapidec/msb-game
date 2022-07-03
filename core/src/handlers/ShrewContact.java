@@ -1,9 +1,7 @@
 package handlers;
 
 import com.badlogic.gdx.physics.box2d.*;
-import objects.player.Food;
-import objects.player.Player;
-import objects.player.Spider;
+import objects.player.*;
 
 public class ShrewContact implements ContactListener {
 
@@ -14,15 +12,19 @@ public class ShrewContact implements ContactListener {
 
         if(objA == null || objB == null) return;
         if(objA.getUserData() == null || objB.getUserData() == null) return;
-        if(objA.getUserData() instanceof Spider && objB.getUserData() instanceof Spider){
-
-        }
 
         if(isPlayerFoodContact(objA, objB)) {
             Player player = (Player) objA.getUserData();
             Food food = (Food) objB.getUserData();
             food.eaten();
             player.eat();
+        }
+
+        if(isProjectileEnemyContact(objA, objB)) {
+            Venom venom = (Venom) objA.getUserData();
+            Enemy enemy = (Enemy) objB.getUserData();
+            enemy.killEnemy();
+            venom.gone();
         }
     }
 
@@ -42,5 +44,12 @@ public class ShrewContact implements ContactListener {
 
     private boolean isPlayerFoodContact(Fixture a, Fixture b) {
         return (a.getUserData() instanceof Player && b.getUserData() instanceof Food);
+    }
+
+    private boolean isProjectileEnemyContact(Fixture a, Fixture b) {
+        return (a.getUserData() instanceof Venom && b.getUserData() instanceof Enemy);
+    }
+    private boolean isProjectileContact(Fixture a, Fixture b) {
+        return (a.getUserData() instanceof Venom || b.getUserData() instanceof Venom);
     }
 }

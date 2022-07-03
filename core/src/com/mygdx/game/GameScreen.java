@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import Helper.BodyHelperService;
 import Helper.TileMapHelper;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
@@ -9,18 +10,17 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import handlers.ShrewContact;
-import objects.player.Enemy;
-import objects.player.Food;
-import objects.player.Player;
-import objects.player.Spider;
+import objects.player.*;
 
 import java.util.Random;
 
+import static Helper.Constants.PPM;
 import static Helper.Constants.SCALE;
 
 public abstract class GameScreen extends ScreenAdapter {
@@ -33,10 +33,12 @@ public abstract class GameScreen extends ScreenAdapter {
     MainGame game;
 	BitmapFont font;
     Texture shrew;
+    Texture venom;
     OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     TileMapHelper tileMapHelper;
 
     protected Player player;
+    protected Venom projectile;
 
     protected Enemy[] enemies;
 
@@ -63,8 +65,23 @@ public abstract class GameScreen extends ScreenAdapter {
 
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap(mapPath);
-    }
 
+        this.shrew = new Texture("shrew_1.png");
+        this.venom = new Texture("venom.png");
+
+        this.projectile = null;
+    }
+    public void show() {
+        Gdx.input.setInputProcessor(new InputAdapter() {
+            @Override
+            public boolean keyDown(int keyCode) {
+                if (keyCode == Input.Keys.ESCAPE) {
+                    Gdx.app.exit();
+                }
+                return true;
+            }
+        });
+    }
     public void update() {
         world.step(1/60f,6,2);
         cameraUpdate();
@@ -94,4 +111,14 @@ public abstract class GameScreen extends ScreenAdapter {
         this.player = player;
     }
 
+    public void setProjectile(boolean direction) {
+        Body venomBody;
+        if(this.projectile == null) {
+            if(!direction)
+                venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x*PPM+33,this.player.getBody().getPosition().y*PPM, 2, 1, false, this.world);
+            else
+                venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x*PPM-33,this.player.getBody().getPosition().y*PPM, 2, 1, false, this.world);
+            this.projectile = new Venom(2, 1, venomBody, direction);
+        }
+    }
 }
