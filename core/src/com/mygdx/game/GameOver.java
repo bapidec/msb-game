@@ -3,13 +3,14 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class GameOver extends GameScreen{
     private int score;
     BitmapFont font = new BitmapFont();
-    public GameScore(MainGame game, int score) {
+    public GameOver(MainGame game, int score) {
         super(game, "");
         this.score = score;
     }
