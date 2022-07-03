@@ -26,7 +26,7 @@ public class TitleScreen extends ScreenAdapter {
 	        @Override
 	        public boolean keyDown(int keyCode) {
 	            if (keyCode == Input.Keys.SPACE) {
-	            	game.setScreen(new Summer(game, "map/ez.tmx"));
+	            	game.setScreen(new Summer(game, "map/level_0.tmx"));
 	            }
 	            return true;
 	        }

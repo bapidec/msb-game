@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import handlers.ShrewContact;
 import objects.player.*;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import static Helper.Constants.PPM;
@@ -42,7 +43,7 @@ public abstract class GameScreen extends ScreenAdapter {
     protected Player player;
     protected Venom projectile;
 
-    protected Enemy[]enemies;
+    protected ArrayList<Enemy> enemies;
 
     protected ShrewContact shrewCollisions;
     protected Texture background;
@@ -59,6 +60,7 @@ public abstract class GameScreen extends ScreenAdapter {
 		this.camera = new OrthographicCamera();
 		this.camera.setToOrtho(false, widthScreen/SCALE, heightScreen/SCALE);
         this.batch = new SpriteBatch();
+        this.enemies = new ArrayList<Enemy>();
 
         this.world = new World(new Vector2(0,-25), false);
         this.shrewCollisions = new ShrewContact();
@@ -70,6 +72,7 @@ public abstract class GameScreen extends ScreenAdapter {
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap(mapPath);
 
         this.shrew = new Texture("shrew_1.png");
+
         this.venom = new Texture("venom.png");
 
         this.projectile = null;
@@ -91,10 +94,8 @@ public abstract class GameScreen extends ScreenAdapter {
         batch.setProjectionMatrix(camera.combined);
         orthogonalTiledMapRenderer.setView(camera);
         player.update();
-        for(int i=0 ; i<10; i++){
-            if(enemies[i]!=null){
-                enemies[i].update();
-            }
+        for(Enemy e: enemies){
+            e.update();
         }
         if(this.projectile != null)
             if(!this.projectile.getExists() || this.projectile.getBody().getPosition().y <0) {
@@ -128,6 +129,7 @@ public abstract class GameScreen extends ScreenAdapter {
                 venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x*PPM+33,this.player.getBody().getPosition().y*PPM, 2, 1, false, this.world, Constants.BIT_PROJECTILE, (short) (Constants.BIT_SPIDER | Constants.BIT_PLATFORM | Constants.BIT_FOOD));
             else
                 venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x*PPM-33,this.player.getBody().getPosition().y*PPM, 2, 1, false, this.world, Constants.BIT_PROJECTILE, (short) (Constants.BIT_SPIDER | Constants.BIT_PLATFORM | Constants.BIT_PROJECTILE));
+
             this.projectile = new Venom(2, 1, venomBody, direction);
             spitSound.play(5.0f);
         }
