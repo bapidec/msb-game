@@ -3,8 +3,9 @@ package objects.player;
 import com.badlogic.gdx.graphics.Texture;
 
 public enum Enemies {
-    SPIDER(32, 32, 2f, new Texture("spider.png"));
-    //BIG_SPIDER(128,128,2f, new Texture("big_spider.png"));
+    SPIDER(32, 32, 2f, new Texture("spider.png")),
+    BIG_SPIDER(128,128,2f, new Texture("big_spider.png")),
+    LARVA(32,32,0, new Texture("larva.png"));
 
     private int w, h;
     private float speed;
