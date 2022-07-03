@@ -17,8 +17,9 @@ import static Helper.Constants.PPM;
 public class Player extends GameEntity {
 
     private int jumpcounter=0;
-    private int power= -49;
-    private boolean direction=false;
+
+    private int power=0;
+    private boolean direction=false; //true-lewo    false-prawo
     private GameScreen gameScreen;
 
     Sound eatingSound = Gdx.audio.newSound(Gdx.files.internal("music/ryjowka_je.mp3"));

@@ -124,7 +124,24 @@ public class Summer extends GameScreen{
 		}
 
 		for(Enemy e: super.enemies){
-			e.render(super.batch);
+			Sprite s;
+			if(e instanceof Spider){
+				s = new Sprite(Enemies.SPIDER.getTexture());
+				s.flip(!e.leftDirection(),false);
+				batch.draw(s, e.getBody().getPosition().x*PPM-(s.getWidth()/2),
+						e.getBody().getPosition().y*PPM-(s.getHeight()/2),Enemies.SPIDER.getWidth(),
+						Enemies.SPIDER.getHeight());
+			}else if(e instanceof BigSpider){
+				s = new Sprite(Enemies.SPIDER.getTexture());
+				s.flip(!e.leftDirection(),false);
+
+				batch.draw(s, e.getBody().getPosition().x*PPM-(s.getWidth()/2),
+						e.getBody().getPosition().y*PPM-(s.getHeight()/2),Enemies.BIG_SPIDER.getWidth(),
+						Enemies.BIG_SPIDER.getHeight());
+			}else{
+				e.render(super.batch);
+			}
+//			e.render(super.batch);
 		}
 
 		for(Venom v: venoms){
