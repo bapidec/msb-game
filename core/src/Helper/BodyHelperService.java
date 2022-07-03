@@ -7,7 +7,7 @@ import static Helper.Constants.PPM;
 
 public class BodyHelperService {
 
-    public static Body createBody(float x, float y, float width, float height, boolean isStatic, World world) {
+    public static Body createBody(float x, float y, float width, float height, boolean isStatic, World world, short cBits, short mBits) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = isStatic ? BodyDef.BodyType.StaticBody : BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x / PPM, y / PPM);
@@ -19,6 +19,9 @@ public class BodyHelperService {
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
+        fixtureDef.filter.categoryBits = cBits;
+        fixtureDef.filter.maskBits = mBits;
+//        fixtureDef.filter.groupIndex = gIndex;
         body.createFixture(fixtureDef);
         shape.dispose();
         return body;

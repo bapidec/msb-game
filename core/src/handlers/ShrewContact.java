@@ -23,7 +23,7 @@ public class ShrewContact implements ContactListener {
         if(isProjectileEnemyContact(objA, objB)) {
             Venom venom = (Venom) objA.getUserData();
             Enemy enemy = (Enemy) objB.getUserData();
-            enemy.killEnemy();
+            //enemy.killEnemy();
             venom.gone();
         }
     }
