@@ -10,9 +10,10 @@ import static Helper.Constants.PPM;
 
 public class Venom extends GameEntity{
     private Texture texture;
-    public boolean exists=true;
+    private boolean exists;
     public Venom(float width, float height, Body body, boolean direction, Texture texture) {
         super(width, height, body);
+        this.exists = true;
         super.speed = 15f;
         this.texture = texture;
         if(!direction)
@@ -38,6 +39,18 @@ public class Venom extends GameEntity{
 
     public void gone() {
         this.exists=false;
+    }
+
+    public Body getBody(){
+        return body;
+    }
+
+    public void setBody(Body body){
+        this.body=body;
+    }
+
+    public boolean isExists(){
+        return exists;
     }
 
 }

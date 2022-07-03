@@ -48,6 +48,8 @@ public class Summer extends GameScreen{
 	}
 	@Override
 	public void update() {
+		if(player.getPower() <=-50)
+			super.game.setScreen(new GameOver(super.game, super.mapPath, player.getPower()));
 		super.update();
 		it++;
 		if(it%120==0){
@@ -86,13 +88,22 @@ public class Summer extends GameScreen{
 				enemies.remove(i);
 			}
 		}
+		for(int i=0; i<venoms.size(); i++) {
+			if(venoms.get(i).getBody().getLinearVelocity().x==0 && venoms.get(i).getBody().getLinearVelocity().y==0)
+				venoms.get(i).gone();
+			if (!venoms.get(i).isExists()) {
+				this.world.destroyBody(venoms.get(i).getBody());
+				venoms.get(i).getBody().setUserData(null);
+				venoms.get(i).setBody(null);
+				venoms.remove(i);
+			}
+		}
 	}
 
 	@Override
 	public void render(float delta) {
 		this.update();
-		Array<Body> bodies = new Array<Body>();
-		this.world.getBodies(bodies);
+
 		Gdx.gl.glClearColor(0,0,0,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		//orthogonalTiledMapRenderer.render();
@@ -104,31 +115,49 @@ public class Summer extends GameScreen{
 		Sprite sprite = new Sprite(shrew);
 		sprite.flip(player.isDirection(),false);
 		batch.draw(sprite, player.getBody().getPosition().x*PPM-(sprite.getWidth()/2),
-				player.getBody().getPosition().y*PPM-(sprite.getHeight()/2),(player.getPower()+64)*1.25f,(player.getPower()+64)*1.25f);
+				player.getBody().getPosition().y*PPM-(sprite.getHeight()/2),(player.getPower()+64)*1.25f,
+				(player.getPower()+64)*1.25f);
 		
-		for(Food f: foods)
-				batch.draw(f.texture, f.getBody().getPosition().x*PPM-(f.texture.getWidth()/2),
-						f.getBody().getPosition().y*PPM-(f.texture.getHeight()/2));
+		for(Food f: foods) {
+			batch.draw(f.texture, f.getBody().getPosition().x * PPM - (f.texture.getWidth() / 2),
+					f.getBody().getPosition().y * PPM - (f.texture.getHeight() / 2));
+		}
 
 		for(Enemy e: super.enemies){
 			e.render(super.batch);
-
 		}
 
-		for(Body b : bodies) {
-			if(b.getUserData() instanceof Venom) {
-				Venom v = (Venom) b.getUserData();
-				if(b.getLinearVelocity().y < 1 || !((Venom) b.getUserData()).exists) {
-					this.world.destroyBody(b);
-					b.setUserData(null);
-				}
-				else
-					v.render(super.batch);
-			}
+		for(Venom v: venoms){
+			v.render(super.batch);
 		}
+
+//		Array<Body> bodies = new Array<Body>();
+//		this.world.getBodies(bodies);
+//		for(int i=0; i<bodies.size; i++){
+//			if(bodies.get(i).getUserData() instanceof Venom) {
+//				if (bodies.get(0).getLinearVelocity().y < 1 || !((Venom) bodies.get(0).getUserData()).exists) {
+//					this.world.destroyBody(bodies.get(i));
+//					bodies.get(0).setUserData(null);
+//				} else {
+//					Venom v = (Venom) (bodies.get(0).getUserData());
+//					v.render(super.batch);
+//				}
+//			}
+//		}
+//		for(Body b : bodies) {
+//			if(b.getUserData() instanceof Venom) {
+//				Venom v = (Venom) b.getUserData();
+//				if(b.getLinearVelocity().y < 1 || !((Venom) b.getUserData()).exists) {
+//					this.world.destroyBody(b);
+//					b.setUserData(null);
+//				}
+//				else
+//					v.render(super.batch);
+//			}
+//		}
 		super.batch.end();
 		super.orthogonalTiledMapRenderer.render();
-		super.box2DDebugRenderer.render(world, camera.combined.scl(PPM));
+		//super.box2DDebugRenderer.render(world, camera.combined.scl(PPM));
 
 	}
 	

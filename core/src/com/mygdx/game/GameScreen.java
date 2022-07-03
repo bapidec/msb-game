@@ -40,10 +40,11 @@ public abstract class GameScreen extends ScreenAdapter {
     OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     TileMapHelper tileMapHelper;
 
-    protected Player player;
+    public static Player player;
     protected Venom projectile;
 
     protected ArrayList<Enemy> enemies;
+    protected ArrayList<Venom> venoms;
 
     protected ShrewContact shrewCollisions;
     protected Texture background;
@@ -61,6 +62,7 @@ public abstract class GameScreen extends ScreenAdapter {
 		this.camera.setToOrtho(false, widthScreen/SCALE, heightScreen/SCALE);
         this.batch = new SpriteBatch();
         this.enemies = new ArrayList<Enemy>();
+        this.venoms = new ArrayList<Venom>();
 
         this.world = new World(new Vector2(0,-25), false);
         this.shrewCollisions = new ShrewContact();
@@ -123,7 +125,7 @@ public abstract class GameScreen extends ScreenAdapter {
         else
             venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x * PPM - 33, this.player.getBody().getPosition().y * PPM, 2, 1, false, this.world, Constants.BIT_PROJECTILE, (short) (Constants.BIT_SPIDER | Constants.BIT_PLATFORM | Constants.BIT_PROJECTILE));
 
-        this.projectile = new Venom(2, 1, venomBody, direction, new Texture("venom.png"));
+        this.venoms.add(new Venom(2, 1, venomBody, direction, new Texture("seed_2.png")));
         spitSound.play(5.0f);
     }
 }

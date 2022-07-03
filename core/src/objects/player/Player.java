@@ -90,6 +90,18 @@ public class Player extends GameEntity {
         this.power++;
         eatingSound.play(5.0f);
     }
+
+    public void hit() {
+        this.power-=10;
+    }
+    public void eat(int l) {
+        this.power+=l;
+        eatingSound.play(5.0f);
+    }
+
+    public void hit(int l) {
+        this.power-=l;
+    }
     public int getPower() {
         return this.power;
     }
