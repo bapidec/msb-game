@@ -36,7 +36,7 @@ public class Summer extends GameScreen{
 
 		summerTheme = Gdx.audio.newMusic(Gdx.files.internal("music/Summer Theme.mp3"));
 		summerTheme.setLooping(true);
-		summerTheme.setVolume(0.25f);
+		summerTheme.setVolume(0.2f);
 	}
 
 	@Override

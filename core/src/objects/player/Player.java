@@ -5,6 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -21,6 +22,9 @@ public class Player extends GameEntity {
     private GameScreen gameScreen;
 
     Sound eatingSound = Gdx.audio.newSound(Gdx.files.internal("music/ryjowka_je.mp3"));
+    Sound walkingSound = Gdx.audio.newSound(Gdx.files.internal("music/ryjowka_ruch.mp3"));
+    Sound jumpingSound = Gdx.audio.newSound(Gdx.files.internal("music/ryjowka_skok.mp3"));
+    private int walkDuration=0;
 
     public Player(float width, float height, Body body, GameScreen gameScreen) {
         super(width, height, body);
@@ -33,17 +37,24 @@ public class Player extends GameEntity {
         if(Gdx.input.isKeyPressed(Input.Keys.D)) {
             super.velX += 1;
             this.direction = false;
+            if(this.walkDuration<=0) {
+                this.walkingSound.play(5f);
+                this.walkDuration = 60;
+            }
         }
         if(Gdx.input.isKeyPressed(Input.Keys.A)) {
             super.velX += -1;
             this.direction = true;
+            if(this.walkDuration<=0) {
+                this.walkingSound.play(5f);
+                this.walkDuration = 60;
+            }
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.W) && this.jumpcounter <1) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.W) && this.jumpcounter < 1) {
             float force = body.getMass() * 12;
             body.applyLinearImpulse(new Vector2(0,force),body.getPosition(),true);
             this.jumpcounter++;
-
-
+            jumpingSound.play(10f);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
             gameScreen.setProjectile(this.direction);
@@ -53,14 +64,21 @@ public class Player extends GameEntity {
             this.jumpcounter = 0;
         }
 
+        if(body.getLinearVelocity().x == 0) {
+            this.walkDuration = 0;
+            this.walkingSound.stop();
+        }
+
         body.setLinearVelocity(velX*speed, body.getLinearVelocity().y);
     }
 
     @Override
     public void update() {
-        super.x = body.getPosition().x * PPM;     // x i y muszą być aktualizowane do aktualnej pozycji body
+        super.x = body.getPosition().x * PPM;   // x i y muszą być aktualizowane do aktualnej pozycji body
         super.y = body.getPosition().y * PPM;
         this.checkUserInput();
+        if(this.walkDuration > 0)
+            this.walkDuration--;
     }
 
     @Override
