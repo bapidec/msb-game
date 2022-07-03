@@ -17,7 +17,7 @@ public class TitleScreen extends ScreenAdapter {
 	public TitleScreen(MainGame game) {
 		this.game = game;
 		this.batch = new SpriteBatch();
-		this.img = new Texture(Gdx.files.internal("badlogic.jpg"));
+		this.img = new Texture(Gdx.files.internal("badlogic.png"));
 	}
 	
 	@Override

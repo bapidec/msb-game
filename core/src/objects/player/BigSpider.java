@@ -1,13 +1,16 @@
 package objects.player;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
 import static Helper.Constants.PPM;
 
 public class BigSpider extends Enemy{
 
-    private int power = 20;
+    private int power = 50;
 
     public BigSpider(int locX, int locY, World world) {
         super(Enemies.BIG_SPIDER, locX, locY, world);
@@ -26,5 +29,10 @@ public class BigSpider extends Enemy{
 
     public void setPower(int power) {
         this.power = power;
+    }
+
+    public void jump(){
+            float force = body.getMass() * 12;
+            super.body.applyLinearImpulse(new Vector2(0,force),super.body.getPosition(),true);
     }
 }

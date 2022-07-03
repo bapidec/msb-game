@@ -50,26 +50,29 @@ public class Summer extends GameScreen{
 	public void update() {
 		if(player.getPower() <= -50)
 			super.game.setScreen(new GameOver(super.game));
+		else if(player.getPower()>=1){
+			super.game.setScreen(new Winter(super.game, "map/level_1.tmx"));
+		}
 		super.update();
 		it++;
 		if(it%120==0){
 			if(GameScreen.rand.nextInt(2)==0){
-				super.enemies.add(new Spider(this.rand.nextInt(2496),850, super.world));
+				super.enemies.add(new Spider(this.rand.nextInt(2496),1300, super.world));
 			}else{
-				super.enemies.add(new Larva(this.rand.nextInt(2496),850, super.world));
+				super.enemies.add(new Larva(this.rand.nextInt(2496),1300, super.world));
 			}
 			it=0;
 		}else if(it%120==60){
 			int temp = GameScreen.rand.nextInt(3);
 			if(temp==0){
 				this.foods.add(new Food(super.world, "",
-						GameScreen.rand.nextInt(2496), 850,16, 16, seeds[0]));
+						GameScreen.rand.nextInt(2496), 1300,16, 16, seeds[0]));
 			}else if(temp==1){
 				this.foods.add(new Food(super.world, "",
-						GameScreen.rand.nextInt(2496), 850,16,16, seeds[1]));
+						GameScreen.rand.nextInt(2496), 1300,16,16, seeds[1]));
 			}else{
 				this.foods.add(new Food(super.world, "",
-						GameScreen.rand.nextInt(2496), 850,16,16, seeds[2]));
+						GameScreen.rand.nextInt(2496), 1300,16,16, seeds[2]));
 			}
 		}
 		for(int i=0; i<foods.size(); i++) {
