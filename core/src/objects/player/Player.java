@@ -42,6 +42,8 @@ public class Player extends GameEntity {
             float force = body.getMass() * 12;
             body.applyLinearImpulse(new Vector2(0,force),body.getPosition(),true);
             this.jumpcounter++;
+
+
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
             gameScreen.setProjectile(this.direction);
@@ -69,5 +71,12 @@ public class Player extends GameEntity {
     public void eat() {
         this.power++;
         eatingSound.play(5.0f);
+    }
+    public int getPower() {
+        return this.power;
+    }
+
+    public boolean isDirection() {
+        return direction;
     }
 }

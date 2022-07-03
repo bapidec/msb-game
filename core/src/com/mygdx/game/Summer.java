@@ -79,8 +79,10 @@ public class Summer extends GameScreen{
 		super.backgroundSprite.setPosition(super.player.getBody().getPosition().x * PPM - super.background.getWidth()/2f,
 				super.player.getBody().getPosition().y * PPM-  96);
 		super.backgroundSprite.draw(super.batch);
-		batch.draw(shrew, player.getBody().getPosition().x*PPM-(shrew.getWidth()/2),
-				player.getBody().getPosition().y*PPM-(shrew.getHeight()/2));
+		Sprite sprite = new Sprite(shrew);
+		sprite.flip(player.isDirection(),false);
+		batch.draw(sprite, player.getBody().getPosition().x*PPM-(sprite.getWidth()/2),
+				player.getBody().getPosition().y*PPM-(sprite.getHeight()/2),(player.getPower()+64)*1.25f,(player.getPower()+64)*1.25f);
 		for(int i=0; i<10; i++)
 			if(foods[i] != null)
 				batch.draw(shrew, foods[i].getBody().getPosition().x*PPM-(shrew.getWidth()/2),
@@ -96,7 +98,7 @@ public class Summer extends GameScreen{
 		}
 		super.batch.end();
 		super.orthogonalTiledMapRenderer.render();
-		super.box2DDebugRenderer.render(world, camera.combined.scl(PPM));
+//		super.box2DDebugRenderer.render(world, camera.combined.scl(PPM));
 
 	}
 	
