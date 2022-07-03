@@ -121,9 +121,13 @@ public abstract class GameScreen extends ScreenAdapter {
     public void setProjectile(boolean direction) {
         Body venomBody;
         if (!direction)
-            venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x * PPM + 33, this.player.getBody().getPosition().y * PPM, 2, 1, false, this.world, Constants.BIT_PROJECTILE, (short) (Constants.BIT_SPIDER | Constants.BIT_PLATFORM | Constants.BIT_FOOD));
+            venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x * PPM + 33,
+                    this.player.getBody().getPosition().y * PPM, 2, 1, false, this.world,
+                    Constants.BIT_PROJECTILE, (short) (Constants.BIT_SPIDER | Constants.BIT_PLATFORM | Constants.BIT_FOOD));
         else
-            venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x * PPM - 33, this.player.getBody().getPosition().y * PPM, 2, 1, false, this.world, Constants.BIT_PROJECTILE, (short) (Constants.BIT_SPIDER | Constants.BIT_PLATFORM | Constants.BIT_PROJECTILE));
+            venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x * PPM - 33,
+                    this.player.getBody().getPosition().y * PPM, 2, 1, false, this.world,
+                    Constants.BIT_PROJECTILE, (short) (Constants.BIT_SPIDER | Constants.BIT_PLATFORM | Constants.BIT_PROJECTILE));
 
         this.venoms.add(new Venom(2, 1, venomBody, direction, new Texture("seed_2.png")));
         spitSound.play(5.0f);
