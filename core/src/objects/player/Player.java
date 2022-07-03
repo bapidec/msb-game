@@ -18,7 +18,7 @@ public class Player extends GameEntity {
 
     private int jumpcounter=0;
 
-    private int power=0;
+    private int power= 0;
     private boolean direction=false; //true-lewo    false-prawo
     private GameScreen gameScreen;
 
