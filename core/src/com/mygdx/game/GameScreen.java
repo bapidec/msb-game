@@ -69,6 +69,7 @@ public abstract class GameScreen extends ScreenAdapter {
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap(mapPath);
 
         this.shrew = new Texture("shrew_1.png");
+
         this.venom = new Texture("venom.png");
 
         this.projectile = null;
