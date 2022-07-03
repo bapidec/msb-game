@@ -30,8 +30,9 @@ public class GameOver extends GameScreen{
     @Override
     public void render(float delta) {
         ScreenUtils.clear(255,0,0,0);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        batch.draw(img, 0, 0);
+        font.draw(batch, "Happy Coding!", Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
         batch.end();
     }
 
