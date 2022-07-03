@@ -97,12 +97,6 @@ public abstract class GameScreen extends ScreenAdapter {
         for(Enemy e: enemies){
             e.update();
         }
-        if(this.projectile != null)
-            if(!this.projectile.getExists() || this.projectile.getBody().getPosition().y <0) {
-            this.world.destroyBody(this.projectile.getBody());
-            this.projectile.getBody().setUserData(null);
-            this.projectile = null;
-            }
 
     }
 
@@ -124,14 +118,12 @@ public abstract class GameScreen extends ScreenAdapter {
 
     public void setProjectile(boolean direction) {
         Body venomBody;
-        if(this.projectile == null) {
-            if(!direction)
-                venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x*PPM+33,this.player.getBody().getPosition().y*PPM, 2, 1, false, this.world, Constants.BIT_PROJECTILE, (short) (Constants.BIT_SPIDER | Constants.BIT_PLATFORM | Constants.BIT_FOOD));
-            else
-                venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x*PPM-33,this.player.getBody().getPosition().y*PPM, 2, 1, false, this.world, Constants.BIT_PROJECTILE, (short) (Constants.BIT_SPIDER | Constants.BIT_PLATFORM | Constants.BIT_PROJECTILE));
+        if (!direction)
+            venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x * PPM + 33, this.player.getBody().getPosition().y * PPM, 2, 1, false, this.world, Constants.BIT_PROJECTILE, (short) (Constants.BIT_SPIDER | Constants.BIT_PLATFORM | Constants.BIT_FOOD));
+        else
+            venomBody = BodyHelperService.createBody(this.player.getBody().getPosition().x * PPM - 33, this.player.getBody().getPosition().y * PPM, 2, 1, false, this.world, Constants.BIT_PROJECTILE, (short) (Constants.BIT_SPIDER | Constants.BIT_PLATFORM | Constants.BIT_PROJECTILE));
 
-            this.projectile = new Venom(2, 1, venomBody, direction);
-            spitSound.play(5.0f);
-        }
+        this.projectile = new Venom(2, 1, venomBody, direction, new Texture("venom.png"));
+        spitSound.play(5.0f);
     }
 }

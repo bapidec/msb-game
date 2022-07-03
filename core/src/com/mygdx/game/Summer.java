@@ -11,6 +11,8 @@ import com.badlogic.gdx.math.Vector3;
 import static Helper.Constants.PPM;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.Array;
 import objects.player.*;
 
 import java.util.ArrayList;
@@ -89,6 +91,8 @@ public class Summer extends GameScreen{
 	@Override
 	public void render(float delta) {
 		this.update();
+		Array<Body> bodies = new Array<Body>();
+		this.world.getBodies(bodies);
 		Gdx.gl.glClearColor(0,0,0,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		//orthogonalTiledMapRenderer.render();
@@ -111,14 +115,20 @@ public class Summer extends GameScreen{
 
 		}
 
-		if(super.projectile != null) {
-
-			super.batch.draw(super.venom, super.projectile.getBody().getPosition().x*PPM,
-					super.projectile.getBody().getPosition().y*PPM);
+		for(Body b : bodies) {
+			if(b.getUserData() instanceof Venom) {
+				Venom v = (Venom) b.getUserData();
+				if(b.getLinearVelocity().y < 1 || !((Venom) b.getUserData()).exists) {
+					this.world.destroyBody(b);
+					b.setUserData(null);
+				}
+				else
+					v.render(super.batch);
+			}
 		}
 		super.batch.end();
 		super.orthogonalTiledMapRenderer.render();
-//		super.box2DDebugRenderer.render(world, camera.combined.scl(PPM));
+		super.box2DDebugRenderer.render(world, camera.combined.scl(PPM));
 
 	}
 	

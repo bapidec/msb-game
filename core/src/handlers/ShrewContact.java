@@ -15,6 +15,7 @@ public class ShrewContact implements ContactListener {
         if(objA.getUserData() == null || objB.getUserData() == null) return;
 
         if(isPlayerFoodContact(objA, objB)) {
+            System.out.println("ijdiajioawjdiawio");
             Player player = (Player) objA.getUserData();
             Food food = (Food) objB.getUserData();
             food.eaten();
@@ -27,14 +28,10 @@ public class ShrewContact implements ContactListener {
             //enemy.killEnemy();
             venom.gone();
         }
-
-        if(isProjectilePlatformContact(objA, objB)) {
-            Venom venom = (Venom) objA.getUserData();
-            venom.gone();
-        }
-
-        if(isProjectileFoodContact(objA, objB)) {
-            Venom venom = (Venom) objA.getUserData();
+        if(isEnemyProjectileContact(objA, objB)) {
+            Venom venom = (Venom) objB.getUserData();
+            Enemy enemy = (Enemy) objA.getUserData();
+            //enemy.killEnemy();
             venom.gone();
         }
     }
@@ -60,10 +57,7 @@ public class ShrewContact implements ContactListener {
     private boolean isProjectileEnemyContact(Fixture a, Fixture b) {
         return (a.getUserData() instanceof Venom && b.getUserData() instanceof Enemy);
     }
-    private boolean isProjectilePlatformContact(Fixture a, Fixture b) {
-        return (a.getUserData() instanceof Venom && b.getUserData() instanceof Platform);
-    }
-    private boolean isProjectileFoodContact(Fixture a, Fixture b) {
-        return (a.getUserData() instanceof Venom && b.getUserData() instanceof Food);
+    private boolean isEnemyProjectileContact(Fixture a, Fixture b) {
+        return (a.getUserData() instanceof Enemy && b.getUserData() instanceof Venom);
     }
 }
