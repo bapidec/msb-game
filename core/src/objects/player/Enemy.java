@@ -28,6 +28,11 @@ public abstract class Enemy extends GameEntity{
         super.x = body.getPosition().x * PPM;     // x i y muszą być aktualizowane do aktualnej pozycji body
         super.y = body.getPosition().y * PPM;
         body.setLinearVelocity(velX*speed, body.getLinearVelocity().y);
+        if(super.x < GameScreen.player.x && super.y-super.width/2 <= GameScreen.player.y-GameScreen.player.width/2){
+            super.velX = 0.5f;
+        }else if(super.x > GameScreen.player.x && super.y-super.width/2 <= GameScreen.player.y-GameScreen.player.width/2){
+            super.velX = -0.5f;
+        }
     }
 
     @Override
